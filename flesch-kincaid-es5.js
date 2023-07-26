@@ -1,4 +1,3 @@
-
 var syllables = function syllables(x) {
   /*
    * basic algortithm: each vowel-group indicates a syllable, except for: final
@@ -69,18 +68,12 @@ var rate = function rate(x) {
 var grade = function grade(x) {
   return 0.39 * wordsPerSentence(x) + 11.8 * syllablesPerWord(x) - 15.59;
 };
-
 /** End of flesch-kincaid code **/
 
 /** CH grader flesch-kincaid code **/
-function scoreGradeFromText(x) {
-  const score = readabilityScore(x);
 
-  return scoreGradeFromScore(score);
-}
-
-function scoreGradeFromScore(score) {
-  const scoreRanges = [
+function gradeFromScore(score) {
+  var scoreRanges = [
     { min: 90, max: 150, grade: "5th Grade" },
     { min: 80, max: 90, grade: "6th Grade" },
     { min: 70, max: 80, grade: "7th Grade" },
@@ -90,7 +83,7 @@ function scoreGradeFromScore(score) {
     { min: 0, max: 30, grade: "Graduate" },
     ];
 
-  for (const range of scoreRanges) {
+  for (var range of scoreRanges) {
     if (score >= range.min && score <= range.max) {
       return range.grade;
     }
@@ -100,5 +93,12 @@ function scoreGradeFromScore(score) {
 }
 
 function readabilityScore(x) {
-  return parseInt(rate(x));
+  const score = parseInt(rate(x));
+  return score > 0 ? score : 0;
 };
+
+function gradeFromText(x) {
+  var score = readabilityScore(x);
+
+  return gradeFromScore(score);
+}
